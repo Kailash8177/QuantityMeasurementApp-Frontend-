@@ -1,0 +1,165 @@
+<div class="page">
+  <h1 class="page-title">▸ MEASUREMENT ENGINE</h1>
+  <p class="page-sub">Select operation &amp; type · enter values · no login required to calculate</p>
+
+  <!-- Operation & Type selector -->
+  <div class="glass-card">
+    <div class="card-label">⚙️ OPERATION</div>
+    <div class="op-tabs">
+      <button *ngFor="let op of ops" class="op-tab" [class.active]="currentOp===op" (click)="setOp(op)">
+        {{ opLabels[op] }}
+      </button>
+    </div>
+    <div class="card-label" style="margin-top:0.85rem;">📌 MEASUREMENT TYPE</div>
+    <div class="type-chips">
+      <button *ngFor="let t of mTypes" class="type-chip" [class.active]="currentType===t" (click)="setType(t)">
+        {{ mTypeLabels[t] }}
+      </button>
+    </div>
+  </div>
+
+  <!-- CONVERT -->
+  <div class="glass-card op-panel" *ngIf="currentOp==='convert'">
+    <div class="card-label">⇄ CONVERT</div>
+    <div class="op-grid row-3">
+      <div><label class="field-label">VALUE</label>
+        <input type="number" class="val-input" [(ngModel)]="cvVal" placeholder="0.00" step="any"/></div>
+      <div><label class="field-label">FROM UNIT</label>
+        <select class="unit-select" [(ngModel)]="cvFrom">
+          <option *ngFor="let u of units" [value]="u">{{ u }}</option>
+        </select></div>
+      <div><label class="field-label">TO UNIT</label>
+        <select class="unit-select" [(ngModel)]="cvTo">
+          <option *ngFor="let u of units" [value]="u">{{ u }}</option>
+        </select></div>
+    </div>
+    <button class="btn-primary exec-btn" (click)="execConvert()">⚡ CONVERT</button>
+    <div class="result-box" *ngIf="resConvert" [class.error-box]="resConvert.isError">
+      <div class="result-val" [class.is-error]="resConvert.isError">
+        {{ resConvert.value }} <small *ngIf="resConvert.unit">{{ resConvert.unit }}</small>
+      </div>
+      <div class="result-label" *ngIf="!resConvert.isError">{{ resConvert.label }}</div>
+    </div>
+  </div>
+
+  <!-- COMPARE -->
+  <div class="glass-card op-panel" *ngIf="currentOp==='compare'">
+    <div class="card-label">⚖ COMPARE</div>
+    <div class="op-grid row-2">
+      <div><label class="field-label">VALUE 1</label>
+        <input type="number" class="val-input" [(ngModel)]="cmpVal1" placeholder="0.00" step="any"/></div>
+      <div><label class="field-label">UNIT 1</label>
+        <select class="unit-select" [(ngModel)]="cmpUnit1">
+          <option *ngFor="let u of units" [value]="u">{{ u }}</option>
+        </select></div>
+      <div><label class="field-label">VALUE 2</label>
+        <input type="number" class="val-input" [(ngModel)]="cmpVal2" placeholder="0.00" step="any"/></div>
+      <div><label class="field-label">UNIT 2</label>
+        <select class="unit-select" [(ngModel)]="cmpUnit2">
+          <option *ngFor="let u of units" [value]="u">{{ u }}</option>
+        </select></div>
+    </div>
+    <button class="btn-primary exec-btn" (click)="execCompare()">⚡ COMPARE</button>
+    <div class="result-box" *ngIf="resCmp" [class.error-box]="resCmp.isError">
+      <div class="result-val" [class.is-error]="resCmp.isError">{{ resCmp.value }}</div>
+      <div class="result-label" *ngIf="!resCmp.isError">{{ resCmp.label }}</div>
+    </div>
+  </div>
+
+  <!-- ADD -->
+  <div class="glass-card op-panel" *ngIf="currentOp==='add'">
+    <div class="card-label">➕ ADD</div>
+    <div class="op-grid row-3">
+      <div><label class="field-label">VALUE 1</label>
+        <input type="number" class="val-input" [(ngModel)]="addVal1" placeholder="0.00" step="any"/></div>
+      <div><label class="field-label">UNIT 1</label>
+        <select class="unit-select" [(ngModel)]="addUnit1">
+          <option *ngFor="let u of units" [value]="u">{{ u }}</option>
+        </select></div>
+      <div><label class="field-label">VALUE 2</label>
+        <input type="number" class="val-input" [(ngModel)]="addVal2" placeholder="0.00" step="any"/></div>
+      <div><label class="field-label">UNIT 2</label>
+        <select class="unit-select" [(ngModel)]="addUnit2">
+          <option *ngFor="let u of units" [value]="u">{{ u }}</option>
+        </select></div>
+      <div><label class="field-label">RESULT UNIT</label>
+        <select class="unit-select" [(ngModel)]="addTarget">
+          <option *ngFor="let u of units" [value]="u">{{ u }}</option>
+        </select></div>
+    </div>
+    <button class="btn-primary exec-btn" (click)="execAdd()">⚡ ADD</button>
+    <div class="result-box" *ngIf="resAdd" [class.error-box]="resAdd.isError">
+      <div class="result-val" [class.is-error]="resAdd.isError">
+        {{ resAdd.value }} <small *ngIf="resAdd.unit">{{ resAdd.unit }}</small>
+      </div>
+      <div class="result-label" *ngIf="!resAdd.isError">{{ resAdd.label }}</div>
+    </div>
+  </div>
+
+  <!-- SUBTRACT -->
+  <div class="glass-card op-panel" *ngIf="currentOp==='subtract'">
+    <div class="card-label">− SUBTRACT</div>
+    <div class="op-grid row-3">
+      <div><label class="field-label">VALUE 1</label>
+        <input type="number" class="val-input" [(ngModel)]="subVal1" placeholder="0.00" step="any"/></div>
+      <div><label class="field-label">UNIT 1</label>
+        <select class="unit-select" [(ngModel)]="subUnit1">
+          <option *ngFor="let u of units" [value]="u">{{ u }}</option>
+        </select></div>
+      <div><label class="field-label">VALUE 2</label>
+        <input type="number" class="val-input" [(ngModel)]="subVal2" placeholder="0.00" step="any"/></div>
+      <div><label class="field-label">UNIT 2</label>
+        <select class="unit-select" [(ngModel)]="subUnit2">
+          <option *ngFor="let u of units" [value]="u">{{ u }}</option>
+        </select></div>
+      <div><label class="field-label">RESULT UNIT</label>
+        <select class="unit-select" [(ngModel)]="subTarget">
+          <option *ngFor="let u of units" [value]="u">{{ u }}</option>
+        </select></div>
+    </div>
+    <button class="btn-primary exec-btn" (click)="execSubtract()">⚡ SUBTRACT</button>
+    <div class="result-box" *ngIf="resSub" [class.error-box]="resSub.isError">
+      <div class="result-val" [class.is-error]="resSub.isError">
+        {{ resSub.value }} <small *ngIf="resSub.unit">{{ resSub.unit }}</small>
+      </div>
+      <div class="result-label" *ngIf="!resSub.isError">{{ resSub.label }}</div>
+    </div>
+  </div>
+
+  <!-- DIVIDE -->
+  <div class="glass-card op-panel" *ngIf="currentOp==='divide'">
+    <div class="card-label">➗ DIVIDE</div>
+    <div class="op-grid row-2">
+      <div><label class="field-label">DIVIDEND VALUE</label>
+        <input type="number" class="val-input" [(ngModel)]="divVal1" placeholder="0.00" step="any"/></div>
+      <div><label class="field-label">UNIT 1</label>
+        <select class="unit-select" [(ngModel)]="divUnit1">
+          <option *ngFor="let u of units" [value]="u">{{ u }}</option>
+        </select></div>
+      <div><label class="field-label">DIVISOR VALUE</label>
+        <input type="number" class="val-input" [(ngModel)]="divVal2" placeholder="0.00" step="any"/></div>
+      <div><label class="field-label">UNIT 2</label>
+        <select class="unit-select" [(ngModel)]="divUnit2">
+          <option *ngFor="let u of units" [value]="u">{{ u }}</option>
+        </select></div>
+    </div>
+    <button class="btn-primary exec-btn" (click)="execDivide()">⚡ DIVIDE</button>
+    <div class="result-box" *ngIf="resDiv" [class.error-box]="resDiv.isError">
+      <div class="result-val" [class.is-error]="resDiv.isError">
+        {{ resDiv.value }} <small *ngIf="resDiv.unit">{{ resDiv.unit }}</small>
+      </div>
+      <div class="result-label" *ngIf="!resDiv.isError">{{ resDiv.label }}</div>
+    </div>
+  </div>
+
+  <!-- Unit reference -->
+  <div class="glass-card">
+    <div class="card-label">📦 UNIT REFERENCE</div>
+    <div class="ref-grid">
+      <div class="ref-chip" *ngFor="let r of unitRef">
+        <span class="ref-type">{{ r.type }}</span>
+        <span class="ref-units">{{ r.units }}</span>
+      </div>
+    </div>
+  </div>
+</div>

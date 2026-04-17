@@ -1,0 +1,25 @@
+.op-tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+.op-tab {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 6px; color: var(--muted);
+  font-family: inherit; font-size: 0.72rem;
+  font-weight: 600; letter-spacing: 0.08em;
+  cursor: pointer; padding: 0.4rem 0.85rem;
+  transition: all 0.2s;
+  &:hover { border-color: var(--accent2); color: var(--accent2); }
+  &.active { background: rgba(124,58,237,0.2); border-color: var(--accent); color: var(--accent2); }
+}
+
+.type-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+.type-chip {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 6px; color: var(--muted);
+  font-family: inherit; font-size: 0.7rem;
+  font-weight: 600; letter-spacing: 0.08em;
+  cursor: pointer; padding: 0.35rem 0.75rem;
+  transition: all 0.2s;
+  &:hover { border-color: var(--cyan); color: var(--cyan); }
+  &.active { background: rgba(34,211,238,0.1); border-color: var(--cyan); color: var(--cyan); }
+}
+
+.exec-btn { margin-top: 0.75rem; width: 100%; font-size: 0.82rem; padding: 0.75rem; }

@@ -1,0 +1,72 @@
+<div class="auth-panel-overlay" [class.open]="isOpen" (click)="close()"></div>
+<div class="auth-panel" [class.open]="isOpen">
+  <div class="panel-header">
+    <div class="panel-brand">QUANTI<span>VERSE</span></div>
+    <button class="panel-close" (click)="close()">✕</button>
+  </div>
+  <div class="auth-tabs">
+    <button class="auth-tab" [class.active]="activeTab==='login'" (click)="setTab('login')">LOGIN</button>
+    <button class="auth-tab" [class.active]="activeTab==='register'" (click)="setTab('register')">REGISTER</button>
+  </div>
+  <div class="auth-forms">
+
+    <!-- LOGIN -->
+    <div class="auth-form" [class.active]="activeTab==='login'">
+      <div class="form-group">
+        <span class="form-label">USERNAME</span>
+        <input class="form-input" type="text" [(ngModel)]="loginUsername" placeholder="your_username"/>
+      </div>
+      <div class="form-group">
+        <span class="form-label">PASSWORD</span>
+        <div class="input-wrap">
+          <input class="form-input" [type]="showLoginPass ? 'text' : 'password'"
+            [(ngModel)]="loginPass" placeholder="••••••••"/>
+          <button class="eye-btn" type="button" (click)="showLoginPass=!showLoginPass">👁</button>
+        </div>
+      </div>
+      <div class="alert-msg" *ngIf="loginErr">{{ loginErr }}</div>
+      <button class="btn-primary" [disabled]="loginLoading" (click)="doLogin()">
+        {{ loginLoading ? 'Signing in…' : '➤ SIGN IN' }}
+      </button>
+      <p class="switch-txt">No account? <button class="switch-link" (click)="setTab('register')">Create one</button></p>
+    </div>
+
+    <!-- REGISTER -->
+    <div class="auth-form" [class.active]="activeTab==='register'">
+      <div class="form-group">
+        <span class="form-label">FIRST NAME</span>
+        <input class="form-input" type="text" [(ngModel)]="regFirst" placeholder="First"/>
+      </div>
+      <div class="form-group">
+        <span class="form-label">LAST NAME</span>
+        <input class="form-input" type="text" [(ngModel)]="regLast" placeholder="Last"/>
+      </div>
+      <div class="form-group">
+        <span class="form-label">USERNAME</span>
+        <input class="form-input" type="text" [(ngModel)]="regUser" placeholder="unique_handle"/>
+      </div>
+      <div class="form-group">
+        <span class="form-label">EMAIL</span>
+        <input class="form-input" type="email" [(ngModel)]="regEmail" placeholder="user@domain.com"/>
+      </div>
+      <div class="form-group">
+        <span class="form-label">PASSWORD</span>
+        <div class="input-wrap">
+          <input class="form-input" [type]="showRegPass ? 'text' : 'password'"
+            [(ngModel)]="regPass" placeholder="min 6 chars"
+            (input)="onPassStrength(regPass)"/>
+          <button class="eye-btn" type="button" (click)="showRegPass=!showRegPass">👁</button>
+        </div>
+        <div class="strength-bar">
+          <div class="strength-fill" [style.width.%]="strengthPct" [style.background]="strengthColor"></div>
+        </div>
+      </div>
+      <div class="alert-msg" *ngIf="regErr">{{ regErr }}</div>
+      <button class="btn-primary" [disabled]="regLoading" (click)="doRegister()">
+        {{ regLoading ? 'Creating…' : '⚡ CREATE ACCOUNT' }}
+      </button>
+      <p class="switch-txt">Have an account? <button class="switch-link" (click)="setTab('login')">Sign in</button></p>
+    </div>
+
+  </div>
+</div>
