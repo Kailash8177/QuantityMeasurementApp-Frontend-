@@ -1,0 +1,35 @@
+<div class="page">
+  <h1 class="page-title">👤 PROFILE</h1>
+  <p class="page-sub">Your account information</p>
+
+  <!-- Guest lock -->
+  <div class="glass-card history-lock" *ngIf="!loggedIn">
+    <div class="lock-icon">🔒</div>
+    <h3>LOGIN REQUIRED</h3>
+    <p>Sign in to access your profile details and session information.</p>
+    <button class="btn-primary" (click)="openLogin()">⚡ SIGN IN / REGISTER</button>
+  </div>
+
+  <!-- Authenticated content -->
+  <div class="profile-grid" *ngIf="loggedIn">
+    <div class="glass-card">
+      <div class="avatar-lg">{{ initials }}</div>
+      <h3 class="profile-name">{{ fullName }}</h3>
+      <div class="profile-row"><span class="profile-label">🆔 USER ID</span><span>{{ userId }}</span></div>
+      <div class="profile-row"><span class="profile-label">📧 EMAIL</span><span>{{ email }}</span></div>
+      <div class="profile-row"><span class="profile-label">🎖️ ROLE</span><span>{{ role }}</span></div>
+      <button class="btn-primary" style="width:100%;margin-top:1rem;" (click)="load()">⟳ REFRESH</button>
+    </div>
+    <div class="glass-card">
+      <div class="card-label">🔐 SESSION INFO</div>
+      <div class="stat-grid">
+        <div class="stat-item"><span>STATUS</span><span class="stat-val">Authenticated ✓</span></div>
+        <div class="stat-item"><span>SESSION</span><span class="stat-val">Active</span></div>
+        <div class="stat-item"><span>MODE</span><span class="stat-val">Authenticated</span></div>
+      </div>
+      <p style="font-size:0.78rem;color:var(--muted);margin-top:1rem;">
+        💡 Your session is managed automatically. Sign in again if it expires.
+      </p>
+    </div>
+  </div>
+</div>

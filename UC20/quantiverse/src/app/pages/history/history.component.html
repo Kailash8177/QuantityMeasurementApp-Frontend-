@@ -1,0 +1,57 @@
+<div class="page">
+  <h1 class="page-title">📋 HISTORY VAULT</h1>
+  <p class="page-sub">Your saved calculations</p>
+
+  <!-- Guest lock -->
+  <div class="glass-card history-lock" *ngIf="!loggedIn">
+    <div class="lock-icon">🔒</div>
+    <h3>LOGIN REQUIRED</h3>
+    <p>Sign in or create an account to view and search your full calculation history.</p>
+    <button class="btn-primary" (click)="openLogin()">⚡ SIGN IN / REGISTER</button>
+  </div>
+
+  <!-- Authenticated content -->
+  <ng-container *ngIf="loggedIn">
+    <div class="glass-card">
+      <div class="filter-bar">
+        <select class="filter-select" [(ngModel)]="filterOp">
+          <option value="">BY OPERATION</option>
+          <option value="compare">COMPARE</option>
+          <option value="convert">CONVERT</option>
+          <option value="add">ADD</option>
+          <option value="subtract">SUBTRACT</option>
+          <option value="divide">DIVIDE</option>
+        </select>
+        <select class="filter-select" [(ngModel)]="filterType">
+          <option value="">BY TYPE</option>
+          <option value="LENGTH">LENGTH</option>
+          <option value="WEIGHT">WEIGHT</option>
+          <option value="VOLUME">VOLUME</option>
+          <option value="TEMPERATURE">TEMPERATURE</option>
+        </select>
+        <button class="btn-primary btn-sm" (click)="fetch()">FETCH</button>
+        <button class="btn-ghost btn-sm" (click)="fetchErrors()">ERRORS ONLY</button>
+      </div>
+    </div>
+
+    <div class="glass-card" style="overflow-x:auto;">
+      <div *ngIf="loading" style="text-align:center;padding:2rem;color:var(--muted);">Loading…</div>
+      <table class="history-table" *ngIf="!loading">
+        <thead>
+          <tr><th>OP</th><th>INPUT 1</th><th>INPUT 2</th><th>RESULT</th><th>TYPE</th><th>STATUS</th></tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="rows.length === 0" class="empty-row"><td colspan="6">— no records —</td></tr>
+          <tr *ngFor="let r of rows">
+            <td><span class="op-badge">{{ r.op }}</span></td>
+            <td>{{ r.v1 }}</td>
+            <td>{{ r.v2 }}</td>
+            <td [style.color]="r.hasErr ? 'var(--error)' : 'inherit'">{{ r.result }}</td>
+            <td style="color:var(--muted);font-size:0.78rem;">{{ r.mtype }}</td>
+            <td [style.color]="r.hasErr ? 'var(--error)' : 'var(--muted)'">{{ r.hasErr ? '⚠ Error' : '—' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+</div>
