@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { TokenService } from './token.service';
+import { environment } from '../../environments/environment';
 
-const API_BASE = 'http://localhost:5062/api/v1';
+const API_BASE = environment.apiUrl;
 
 export interface QuantityDTO {
   value: number;
