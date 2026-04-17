@@ -1,0 +1,101 @@
+/* ── Auth Page ───────────────────────────────────────────────── */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(99,102,241,0.18) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 90%, rgba(79,70,229,0.12) 0%, transparent 50%),
+    var(--bg);
+}
+
+.auth-card { width: 100%; max-width: 440px; }
+
+/* ── Logo ────────────────────────────────────────────────────── */
+.auth-logo         { text-align: center; margin-bottom: 32px; }
+.auth-logo .logo-icon { font-size: 3rem; display: block; margin-bottom: 10px; }
+.auth-logo h1      { color: var(--text); font-size: 1.6rem; }
+.auth-logo p       { color: var(--text-muted); margin-top: 6px; font-size: 0.88rem; }
+
+/* ── Tabs ────────────────────────────────────────────────────── */
+.auth-tabs {
+  display: flex;
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 24px;
+  gap: 4px;
+}
+.auth-tab {
+  flex: 1;
+  padding: 9px;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.auth-tab:hover  { color: var(--text); }
+.auth-tab.active { background: var(--primary); color: #fff; }
+
+/* ── Forms ───────────────────────────────────────────────────── */
+.auth-form        { display: none; }
+.auth-form.active { display: block; animation: fadeIn 0.25s ease; }
+
+/* ── Two-column name row ─────────────────────────────────────── */
+.name-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* ── Role Selector ───────────────────────────────────────────── */
+.role-select { display: flex; gap: 10px; }
+.role-btn {
+  flex: 1;
+  padding: 9px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: none;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.role-btn:hover  { border-color: var(--border-lt); color: var(--text); }
+.role-btn.active { border-color: var(--primary); background: var(--primary-lt); color: var(--primary); }
+
+/* ── Divider ─────────────────────────────────────────────────── */
+.divider {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.78rem;
+  margin: 20px 0 0;
+  position: relative;
+}
+.divider::before, .divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 42%;
+  height: 1px;
+  background: var(--border);
+}
+.divider::before { left: 0; }
+.divider::after  { right: 0; }
+
+/* ── Footer link ─────────────────────────────────────────────── */
+.auth-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+.auth-footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
+.auth-footer a:hover { text-decoration: underline; }
+
+@media (max-width: 480px) {
+  .name-row { grid-template-columns: 1fr; }
+}

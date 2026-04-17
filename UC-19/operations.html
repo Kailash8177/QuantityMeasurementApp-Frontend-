@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QMeasure — Operations</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ── Navbar ─────────────────────────────────────────────────── -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="operations.html" class="nav-brand">
+        <span>⚖️</span> QMeasure
+      </a>
+
+      <div class="nav-links">
+        <a href="operations.html" class="nav-link active">
+          <span>🔢</span> Operations
+        </a>
+        <a href="admin.html" id="adminLink" class="nav-link" style="display:none">
+          <span>🛡️</span> Admin
+        </a>
+      </div>
+
+      <div class="nav-user">
+        <span id="navUser"></span>
+        <span id="navRole" class="badge badge-user"></span>
+        <a href="index.html" id="loginNavBtn" class="btn btn-sm btn-primary" style="display:none">&#128273; Login</a>
+        <button id="logoutBtn" class="btn btn-sm btn-logout" style="display:none">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Main Content ───────────────────────────────────────────── -->
+  <main>
+    <div class="container">
+      <div class="page-header">
+        <h1>Quantity Operations <small>UC18 API</small></h1>
+        <p>Compare, convert, add, subtract, and divide physical quantities across units</p>
+      </div>
+
+      <!-- ── Tab Bar ─────────────────────────────────────────────── -->
+      <div class="tab-bar">
+        <button class="tab-btn active" data-tab="comparePanel">⚖️ Compare</button>
+        <button class="tab-btn"        data-tab="convertPanel">🔄 Convert</button>
+        <button class="tab-btn"        data-tab="addPanel">➕ Add</button>
+        <button class="tab-btn"        data-tab="subtractPanel">➖ Subtract</button>
+        <button class="tab-btn"        data-tab="dividePanel">➗ Divide</button>
+        <button class="tab-btn"        data-tab="historyPanel">📋 History</button>
+      </div>
+
+      <!-- ════════════ COMPARE ════════════ -->
+      <div id="comparePanel" class="tab-panel active">
+        <div class="card">
+          <div class="op-panel-title">
+            <span class="op-icon">⚖️</span>
+            <div>
+              <h2>Compare Quantities</h2>
+              <p>Check if two quantities are equal after unit conversion</p>
+            </div>
+          </div>
+
+          <div id="compareAlert" class="alert"></div>
+
+          <form id="compareForm" novalidate>
+            <div class="form-group">
+              <label for="compareType">Measurement Type</label>
+              <select id="compareType">
+                <option value="LENGTH">LENGTH</option>
+                <option value="WEIGHT">WEIGHT</option>
+                <option value="VOLUME">VOLUME</option>
+                <option value="TEMPERATURE">TEMPERATURE</option>
+              </select>
+            </div>
+
+            <div class="inputs-grid">
+              <div class="form-group">
+                <label for="compareVal1">Value A</label>
+                <input id="compareVal1" type="number" placeholder="e.g. 12" step="any" required>
+              </div>
+              <div class="form-group">
+                <label for="compareUnit1">Unit A</label>
+                <select id="compareUnit1"></select>
+              </div>
+            </div>
+
+            <div class="inputs-grid">
+              <div class="form-group">
+                <label for="compareVal2">Value B</label>
+                <input id="compareVal2" type="number" placeholder="e.g. 1" step="any" required>
+              </div>
+              <div class="form-group">
+                <label for="compareUnit2">Unit B</label>
+                <select id="compareUnit2"></select>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" data-text="Compare">
+              <span class="spinner"></span>
+              <span class="btn-text">Compare</span>
+            </button>
+          </form>
+
+          <div id="compareResult" class="result-box"></div>
+        </div>
+      </div>
+
+      <!-- ════════════ CONVERT ════════════ -->
+      <div id="convertPanel" class="tab-panel">
+        <div class="card">
+          <div class="op-panel-title">
+            <span class="op-icon">🔄</span>
+            <div>
+              <h2>Convert Quantity</h2>
+              <p>Convert a value from one unit to another</p>
+            </div>
+          </div>
+
+          <div id="convertAlert" class="alert"></div>
+
+          <form id="convertForm" novalidate>
+            <div class="form-group">
+              <label for="convertType">Measurement Type</label>
+              <select id="convertType">
+                <option value="LENGTH">LENGTH</option>
+                <option value="WEIGHT">WEIGHT</option>
+                <option value="VOLUME">VOLUME</option>
+                <option value="TEMPERATURE">TEMPERATURE</option>
+              </select>
+            </div>
+
+            <div class="inputs-grid">
+              <div class="form-group">
+                <label for="convertVal">Value</label>
+                <input id="convertVal" type="number" placeholder="e.g. 100" step="any" required>
+              </div>
+              <div class="form-group">
+                <label for="convertFromUnit">From Unit</label>
+                <select id="convertFromUnit"></select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="convertToUnit">To Unit</label>
+              <select id="convertToUnit"></select>
+            </div>
+
+            <button type="submit" class="btn btn-primary" data-text="Convert">
+              <span class="spinner"></span>
+              <span class="btn-text">Convert</span>
+            </button>
+          </form>
+
+          <div id="convertResult" class="result-box"></div>
+        </div>
+      </div>
+
+      <!-- ════════════ ADD ════════════ -->
+      <div id="addPanel" class="tab-panel">
+        <div class="card">
+          <div class="op-panel-title">
+            <span class="op-icon">➕</span>
+            <div>
+              <h2>Add Quantities</h2>
+              <p>Sum two quantities and express the result in a target unit</p>
+            </div>
+          </div>
+
+          <div id="addAlert" class="alert"></div>
+
+          <form id="addForm" novalidate>
+            <div class="form-group">
+              <label for="addType">Measurement Type</label>
+              <select id="addType">
+                <option value="LENGTH">LENGTH</option>
+                <option value="WEIGHT">WEIGHT</option>
+                <option value="VOLUME">VOLUME</option>
+                <option value="TEMPERATURE">TEMPERATURE</option>
+              </select>
+            </div>
+
+            <div class="inputs-grid">
+              <div class="form-group">
+                <label for="addVal1">Value A</label>
+                <input id="addVal1" type="number" placeholder="e.g. 2" step="any" required>
+              </div>
+              <div class="form-group">
+                <label for="addUnit1">Unit A</label>
+                <select id="addUnit1"></select>
+              </div>
+            </div>
+
+            <div class="inputs-grid">
+              <div class="form-group">
+                <label for="addVal2">Value B</label>
+                <input id="addVal2" type="number" placeholder="e.g. 3" step="any" required>
+              </div>
+              <div class="form-group">
+                <label for="addUnit2">Unit B</label>
+                <select id="addUnit2"></select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="addTargetUnit">Result Unit</label>
+              <select id="addTargetUnit"></select>
+            </div>
+
+            <button type="submit" class="btn btn-success" data-text="Add">
+              <span class="spinner"></span>
+              <span class="btn-text">Add</span>
+            </button>
+          </form>
+
+          <div id="addResult" class="result-box"></div>
+        </div>
+      </div>
+
+      <!-- ════════════ SUBTRACT ════════════ -->
+      <div id="subtractPanel" class="tab-panel">
+        <div class="card">
+          <div class="op-panel-title">
+            <span class="op-icon">➖</span>
+            <div>
+              <h2>Subtract Quantities</h2>
+              <p>Subtract B from A and express in a target unit</p>
+            </div>
+          </div>
+
+          <div id="subtractAlert" class="alert"></div>
+
+          <form id="subtractForm" novalidate>
+            <div class="form-group">
+              <label for="subtractType">Measurement Type</label>
+              <select id="subtractType">
+                <option value="LENGTH">LENGTH</option>
+                <option value="WEIGHT">WEIGHT</option>
+                <option value="VOLUME">VOLUME</option>
+                <option value="TEMPERATURE">TEMPERATURE</option>
+              </select>
+            </div>
+
+            <div class="inputs-grid">
+              <div class="form-group">
+                <label for="subtractVal1">Value A</label>
+                <input id="subtractVal1" type="number" placeholder="e.g. 10" step="any" required>
+              </div>
+              <div class="form-group">
+                <label for="subtractUnit1">Unit A</label>
+                <select id="subtractUnit1"></select>
+              </div>
+            </div>
+
+            <div class="inputs-grid">
+              <div class="form-group">
+                <label for="subtractVal2">Value B</label>
+                <input id="subtractVal2" type="number" placeholder="e.g. 3" step="any" required>
+              </div>
+              <div class="form-group">
+                <label for="subtractUnit2">Unit B</label>
+                <select id="subtractUnit2"></select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="subtractTargetUnit">Result Unit</label>
+              <select id="subtractTargetUnit"></select>
+            </div>
+
+            <button type="submit" class="btn btn-danger" data-text="Subtract">
+              <span class="spinner"></span>
+              <span class="btn-text">Subtract</span>
+            </button>
+          </form>
+
+          <div id="subtractResult" class="result-box"></div>
+        </div>
+      </div>
+
+      <!-- ════════════ DIVIDE ════════════ -->
+      <div id="dividePanel" class="tab-panel">
+        <div class="card">
+          <div class="op-panel-title">
+            <span class="op-icon">➗</span>
+            <div>
+              <h2>Divide Quantities</h2>
+              <p>Returns the scalar ratio A ÷ B (dimensionless)</p>
+            </div>
+          </div>
+
+          <div id="divideAlert" class="alert"></div>
+
+          <form id="divideForm" novalidate>
+            <div class="form-group">
+              <label for="divideType">Measurement Type</label>
+              <select id="divideType">
+                <option value="LENGTH">LENGTH</option>
+                <option value="WEIGHT">WEIGHT</option>
+                <option value="VOLUME">VOLUME</option>
+                <option value="TEMPERATURE">TEMPERATURE</option>
+              </select>
+            </div>
+
+            <div class="inputs-grid">
+              <div class="form-group">
+                <label for="divideVal1">Dividend (A)</label>
+                <input id="divideVal1" type="number" placeholder="e.g. 6" step="any" required>
+              </div>
+              <div class="form-group">
+                <label for="divideUnit1">Unit A</label>
+                <select id="divideUnit1"></select>
+              </div>
+            </div>
+
+            <div class="inputs-grid">
+              <div class="form-group">
+                <label for="divideVal2">Divisor (B) — must not be zero</label>
+                <input id="divideVal2" type="number" placeholder="e.g. 2" step="any" required>
+              </div>
+              <div class="form-group">
+                <label for="divideUnit2">Unit B</label>
+                <select id="divideUnit2"></select>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-outline" data-text="Divide">
+              <span class="spinner"></span>
+              <span class="btn-text">Divide</span>
+            </button>
+          </form>
+
+          <div id="divideResult" class="result-box"></div>
+        </div>
+      </div>
+
+      <!-- ════════════ HISTORY ════════════ -->
+      <div id="historyPanel" class="tab-panel">
+        <div class="card">
+          <div class="op-panel-title">
+            <span class="op-icon">📋</span>
+            <div>
+              <h2>Operation History</h2>
+              <p>Browse past quantity operations stored in the database</p>
+            </div>
+          </div>
+
+          <!-- Filter Bar -->
+          <div class="filter-bar">
+            <div class="form-group" style="margin:0;flex:1;min-width:140px">
+              <label>Filter by Operation</label>
+              <select id="filterOperation">
+                <option value="ALL">All Operations</option>
+                <option value="compare">Compare</option>
+                <option value="convert">Convert</option>
+                <option value="add">Add</option>
+                <option value="subtract">Subtract</option>
+                <option value="divide">Divide</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin:0;flex:1;min-width:140px">
+              <label>Filter by Type</label>
+              <select id="filterType">
+                <option value="ALL">All Types</option>
+                <option value="LENGTH">LENGTH</option>
+                <option value="WEIGHT">WEIGHT</option>
+                <option value="VOLUME">VOLUME</option>
+                <option value="TEMPERATURE">TEMPERATURE</option>
+              </select>
+            </div>
+            <div class="flex" style="gap:8px;align-items:flex-end;padding-bottom:1px">
+              <button id="showErroredBtn" class="btn btn-sm btn-outline" title="Show only errored operations">⚠ Errored</button>
+              <button id="refreshHistoryBtn" class="btn btn-sm btn-outline">↺ Refresh</button>
+            </div>
+          </div>
+
+          <!-- Table -->
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Operation</th>
+                  <th>Value A</th>
+                  <th>Value B</th>
+                  <th>Result</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="historyBody">
+                <tr><td colspan="6" class="empty-cell">Click History tab to load records.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /container -->
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/operations.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QMeasure — Admin</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ── Navbar ──────────────────────────────────────────────────── -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="operations.html" class="nav-brand">
+        <span>⚖️</span> QMeasure
+      </a>
+
+      <div class="nav-links">
+        <a href="operations.html" class="nav-link">
+          <span>🔢</span> Operations
+        </a>
+        <a href="admin.html" class="nav-link active">
+          <span>🛡️</span> Admin
+        </a>
+      </div>
+
+      <div class="nav-user">
+        <span id="navUser"></span>
+        <span id="navRole" class="badge badge-admin">Admin</span>
+        <button id="logoutBtn" class="btn btn-sm btn-ghost">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Main Content ────────────────────────────────────────────── -->
+  <main>
+    <div class="container">
+      <div class="page-header flex-between">
+        <div>
+          <h1>Admin Dashboard</h1>
+          <p>Manage users, roles, and view platform statistics</p>
+        </div>
+        <button id="refreshUsersBtn" class="btn btn-outline">↺ Refresh</button>
+      </div>
+
+      <!-- ── Stats Row ─────────────────────────────────────────── -->
+      <div class="grid-4" style="margin-bottom:28px">
+        <div class="stat-card">
+          <div class="stat-number" id="statTotal">—</div>
+          <div class="stat-label">Total Users</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" style="color:var(--success)" id="statActive">—</div>
+          <div class="stat-label">Active Users</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" style="color:var(--text-muted)" id="statInactive">—</div>
+          <div class="stat-label">Inactive Users</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" style="color:var(--warning)" id="statAdmins">—</div>
+          <div class="stat-label">Admin Users</div>
+        </div>
+      </div>
+
+      <!-- ── Users Table ──────────────────────────────────────── -->
+      <div class="card">
+        <div class="op-panel-title">
+          <span class="op-icon">👥</span>
+          <div>
+            <h2>Registered Users</h2>
+            <p>View and manage all user accounts</p>
+          </div>
+        </div>
+
+        <div id="adminAlert" class="alert"></div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Last Login</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="usersBody">
+              <tr><td colspan="7" class="loading-cell"><span class="spinner show"></span> Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /container -->
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
